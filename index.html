@@ -1,84 +1,259 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gothef Sameh Mohamed - Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #0d1117;
-            color: white;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        header {
-            padding: 40px 0;
-            background: #161b22;
-        }
-        h1 {
-            font-size: 32px;
-        }
-        p {
-            font-size: 18px;
-        }
-        .section {
-            padding: 30px;
-            margin-top: 20px;
-        }
-        .projects, .skills, .contact {
-            background: #161b22;
-            margin: 10px auto;
-            width: 90%;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .project-box {
-            background: #21262d;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        a {
-            color: #58a6ff;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Gothef Sameh Mohamed - Portfolio</title>
+<style>
+  :root{
+    --bg:#0f1720; --card:#0b1220; --accent:#4a6cf7; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Arial, sans-serif; background:var(--bg); color:#fff;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+  header{padding:32px 16px; text-align:center; background:linear-gradient(90deg, rgba(74,108,247,0.15), transparent);}
+  header h1{margin:0;font-size:28px}
+  header p{margin:6px 0 0;color:var(--muted)}
+
+  .container{max-width:1000px;margin:24px auto;padding:0 16px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    gap:18px;
+  }
+
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    padding:18px;border-radius:12px; box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  }
+  h2{color:var(--accent);margin:0 0 12px;font-size:20px}
+
+  /* Calculator */
+  .calc{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+  .display{
+    background:var(--glass); padding:12px;border-radius:8px;text-align:left;color:#fff;font-size:20px; min-height:48px;
+    word-wrap:break-word;
+  }
+  .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .btn{padding:14px;border-radius:8px;border:none;background:rgba(255,255,255,0.04);color:#fff;font-size:18px;cursor:pointer}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.op{background:rgba(74,108,247,0.18)}
+  .btn.equal{grid-column:span:2;background:var(--accent); color:#fff}
+  .btn.wide{grid-column:span 2}
+
+  /* XO */
+  .xo-board{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:320px;margin:auto}
+  .cell{
+    background:rgba(255,255,255,0.02); height:92px; display:flex;align-items:center;justify-content:center;
+    font-size:40px;border-radius:8px;cursor:pointer;border:1px solid rgba(255,255,255,0.03);
+  }
+  .meta{margin-top:12px;text-align:center;color:var(--muted)}
+  .controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
+  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;color:var(--muted)}
+
+  /* responsive tweaks */
+  @media (max-width:420px){
+    .cell{height:72px;font-size:32px}
+    .btn{padding:12px;font-size:16px}
+  }
+</style>
 </head>
 <body>
+  <header>
+    <h1>Gothef Sameh Mohamed</h1>
+    <p>Portfolio — آلة حاسبة &amp; لعبة XO</p>
+  </header>
 
-    <header>
-        <h1>Gothef Sameh Mohamed</h1>
-        <p>Full Stack Developer</p>
-    </header>
+  <div class="container">
+    <div class="grid">
+      <!-- Calculator card -->
+      <div class="card">
+        <h2>آلة حاسبة</h2>
+        <div class="calc">
+          <div id="calcDisplay" class="display" dir="ltr">0</div>
+          <div class="keys" id="calcKeys">
+            <button class="btn" data-action="clear">C</button>
+            <button class="btn" data-action="back">←</button>
+            <button class="btn" data-value="(">(</button>
+            <button class="btn" data-value=")">)</button>
 
-    <div class="section projects">
-        <h2>المشاريع</h2>
+            <button class="btn" data-value="7">7</button>
+            <button class="btn" data-value="8">8</button>
+            <button class="btn" data-value="9">9</button>
+            <button class="btn op" data-value="/">÷</button>
 
-        <div class="project-box">
-            <h3>آلة حاسبة</h3>
-            <p>مشروع آلة حاسبة بسيط بلغة HTML + CSS + JS.</p>
+            <button class="btn" data-value="4">4</button>
+            <button class="btn" data-value="5">5</button>
+            <button class="btn" data-value="6">6</button>
+            <button class="btn op" data-value="*">×</button>
+
+            <button class="btn" data-value="1">1</button>
+            <button class="btn" data-value="2">2</button>
+            <button class="btn" data-value="3">3</button>
+            <button class="btn op" data-value="-">−</button>
+
+            <button class="btn" data-value="0">0</button>
+            <button class="btn" data-value=".">.</button>
+            <button class="btn equal" data-action="eval">=</button>
+            <button class="btn op" data-value="+">+</button>
+          </div>
         </div>
+        <small style="color:var(--muted);display:block;margin-top:10px">المدخلات المسموح بها: أرقام، + - * / . ( )</small>
+      </div>
 
-        <div class="project-box">
-            <h3>لعبة XO</h3>
-            <p>لعبة XO بسيطة باستخدام JavaScript.</p>
+      <!-- XO card -->
+      <div class="card">
+        <h2>لعبة XO</h2>
+        <div id="xo">
+          <div class="xo-board" id="board">
+            <div class="cell" data-i="0"></div>
+            <div class="cell" data-i="1"></div>
+            <div class="cell" data-i="2"></div>
+            <div class="cell" data-i="3"></div>
+            <div class="cell" data-i="4"></div>
+            <div class="cell" data-i="5"></div>
+            <div class="cell" data-i="6"></div>
+            <div class="cell" data-i="7"></div>
+            <div class="cell" data-i="8"></div>
+          </div>
+          <div class="meta" id="xoStatus">دور اللاعب: X</div>
+          <div class="controls">
+            <button class="btn secondary" id="resetXO">إعادة</button>
+            <button class="btn secondary" id="swapStart">ابدأ بـ O</button>
+          </div>
         </div>
+      </div>
+
     </div>
 
-    <div class="section skills">
-        <h2>المهارات</h2>
-        <p>• HTML</p>
-        <p>• CSS</p>
-        <p>• JavaScript</p>
-        <p>• Python</p>
+    <!-- optional small footer -->
+    <div style="text-align:center;color:var(--muted);margin-top:20px">
+      © 2025 Gothef — تواصل: w3173854@gmail.com
     </div>
+  </div>
 
-    <div class="section contact">
-        <h2>تواصل معي</h2>
-        <p>📧 Email: w3173854@gmail.com</p>
-    </div>
+<script>
+/* ---------------- Calculator ---------------- */
+(function(){
+  const display = document.getElementById('calcDisplay');
+  const keys = document.getElementById('calcKeys');
 
+  let expr = '';
+
+  function updateDisplay(){
+    display.textContent = expr === '' ? '0' : expr;
+  }
+
+  keys.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    const val = btn.getAttribute('data-value');
+    const action = btn.getAttribute('data-action');
+
+    if(action === 'clear'){ expr = ''; updateDisplay(); return; }
+    if(action === 'back'){ expr = expr.slice(0,-1); updateDisplay(); return; }
+    if(action === 'eval'){
+      // sanitize: allow only digits, operators, parentheses, dot and spaces
+      const safe = expr.replace(/÷/g,'/').replace(/×/g,'*');
+      if(!/^[0-9+\-*/().\s]+$/.test(safe) || safe.trim()===''){
+        display.textContent = 'خطأ';
+        return;
+      }
+      try{
+        // use Function to evaluate safely after validation
+        const result = Function('"use strict";return ('+safe+')')();
+        expr = String(result);
+        updateDisplay();
+      }catch(err){
+        display.textContent = 'خطأ';
+      }
+      return;
+    }
+    // normal input
+    if(val){
+      expr += val;
+      updateDisplay();
+    }
+  });
+  updateDisplay();
+})();
+
+/* ---------------- Tic Tac Toe (XO) ---------------- */
+(function(){
+  const cells = Array.from(document.querySelectorAll('.cell'));
+  const status = document.getElementById('xoStatus');
+  const resetBtn = document.getElementById('resetXO');
+  const swapBtn = document.getElementById('swapStart');
+
+  let board = Array(9).fill('');
+  let current = 'X';
+  let running = true;
+  let startWithO = false;
+
+  function render(){
+    cells.forEach((c,i)=> c.textContent = board[i]);
+  }
+
+  function checkWinner(){
+    const wins = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[2,4,6]
+    ];
+    for(const w of wins){
+      const [a,b,c] = w;
+      if(board[a] && board[a] === board[b] && board[a] === board[c]){
+        return board[a];
+      }
+    }
+    if(board.every(Boolean)) return 'tie';
+    return null;
+  }
+
+  function updateStatus(){
+    const result = checkWinner();
+    if(result === 'tie'){
+      status.textContent = 'تعادل!';
+      running = false;
+    } else if(result){
+      status.textContent = 'الفائز: ' + result;
+      running = false;
+    } else {
+      status.textContent = 'دور اللاعب: ' + current;
+    }
+  }
+
+  function cellClick(e){
+    if(!running) return;
+    const i = Number(e.target.getAttribute('data-i'));
+    if(board[i]) return;
+    board[i] = current;
+    current = current === 'X' ? 'O' : 'X';
+    render(); updateStatus();
+  }
+
+  cells.forEach(c => c.addEventListener('click', cellClick));
+
+  resetBtn.addEventListener('click', ()=>{
+    board = Array(9).fill(''); current = startWithO ? 'O' : 'X'; running = true; render(); updateStatus();
+  });
+
+  swapBtn.addEventListener('click', ()=>{
+    startWithO = !startWithO;
+    current = startWithO ? 'O' : 'X';
+    swapBtn.textContent = startWithO ? 'ابدأ بـ X' : 'ابدأ بـ O';
+    resetBtn.click();
+  });
+
+  // init
+  current = startWithO ? 'O' : 'X';
+  updateStatus();
+})();
+</script>
 </body>
-      </html>
+    </html>
+
